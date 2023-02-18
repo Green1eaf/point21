@@ -55,19 +55,7 @@ public class Point21Application {
                 } else break;
             }
 
-            if (!isLose(player.sum()) && (isLose(comp.sum()) || player.sum() > comp.sum())) {
-                System.out.println();
-                System.out.println("Поздравляем! Вы выиграли!✌");
-                System.out.println();
-            } else if (!isLose(player.sum()) && player.sum() == comp.sum()) {
-                System.out.println();
-                System.out.println("Ничья!☮");
-                System.out.println();
-            } else {
-                System.out.println();
-                System.out.println("Победил компьютер!☠");
-                System.out.println();
-            }
+            checkWinner(player, comp);
 
             System.out.println("Продолжить играть? (Нажмите: 1 - да, 2 - нет)");
             int ans = scanner.nextInt();
@@ -76,6 +64,22 @@ public class Point21Application {
                 return;
             }
         } while (true);
+    }
+
+    private static void checkWinner(Player player, Player comp) {
+        if (!isLose(player.sum()) && (isLose(comp.sum()) || player.sum() > comp.sum())) {
+            System.out.println();
+            System.out.println("Поздравляем! Вы выиграли!✌");
+            System.out.println();
+        } else if (!isLose(player.sum()) && player.sum() == comp.sum()) {
+            System.out.println();
+            System.out.println("Ничья!☮");
+            System.out.println();
+        } else {
+            System.out.println();
+            System.out.println("Победил компьютер!☠");
+            System.out.println();
+        }
     }
 
     private static boolean isLose(int sum) {
