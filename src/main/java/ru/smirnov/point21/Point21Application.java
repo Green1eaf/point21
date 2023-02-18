@@ -1,6 +1,7 @@
 package ru.smirnov.point21;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import ru.smirnov.point21.model.Index;
 import ru.smirnov.point21.model.Player;
 import ru.smirnov.point21.repository.CardRepository;
 import ru.smirnov.point21.service.InMemoryCardManager;
@@ -19,7 +20,7 @@ public class Point21Application {
         Player player = new Player();
         Player comp = new Player();
         Scanner scanner = new Scanner(System.in);
-        int answer = 0;
+        int answer;
 
         System.out.println("Игра началась!");
         do {
@@ -31,11 +32,13 @@ public class Point21Application {
             do {
                 player.addCard(cardRepository.getCard());
                 System.out.println("Ваши карты: " + player.getCards());
+                System.out.println("Сумма очков: " + player.sum());
+                System.out.println();
                 if (isLose(player.sum())) {
                     System.out.println("Перебор!");
                     break;
                 }
-                System.out.println("Ещё?(1 - да, 2 - нет)");
+                System.out.println("Ещё? (Нажмите: 1 - да, 2 - нет)");
                 answer = scanner.nextInt();
             } while (answer != 2);
 
@@ -47,22 +50,31 @@ public class Point21Application {
                 if (comp.sum() <= player.sum()) {
                     compThinking();
                     comp.addCard(cardRepository.getCard());
-                    System.out.println("Ваши карты: " + player.getCards());
-                    System.out.println("Карты компа:" + comp.getCards());
+                    System.out.println("Ваши карты: " + player.getCards() + " |Ваши очки: " + player.sum());
+                    System.out.println("Карты компьютера:" + comp.getCards() + " |Сумма очков у компьютера: " + comp.sum());
                 } else break;
             }
 
             if (!isLose(player.sum()) && (isLose(comp.sum()) || player.sum() > comp.sum())) {
-                System.out.println("Поздравляем! Вы выиграли!");
+                System.out.println();
+                System.out.println("Поздравляем! Вы выиграли!✌");
+                System.out.println();
             } else if (!isLose(player.sum()) && player.sum() == comp.sum()) {
-                System.out.println("Ничья!");
+                System.out.println();
+                System.out.println("Ничья!☮");
+                System.out.println();
             } else {
-                System.out.println("Победил компьютер!");
+                System.out.println();
+                System.out.println("Победил компьютер!☠");
+                System.out.println();
             }
 
-            System.out.println("Продолжить играть?(1 - да, 2 - нет)");
+            System.out.println("Продолжить играть? (Нажмите: 1 - да, 2 - нет)");
             int ans = scanner.nextInt();
-            if (ans == 2) return;
+            if (ans == 2) {
+                System.out.println("Спасибо за игру!!!");
+                return;
+            }
         } while (true);
     }
 
@@ -79,7 +91,12 @@ public class Point21Application {
     }
 
     private static void compThinking() throws InterruptedException {
-        TimeUnit.SECONDS.sleep(4);
+        System.out.println();
+        System.out.print("Компьютер думает");
+        for (int i = 0; i < 4; i++) {
+            System.out.print(".");
+            TimeUnit.SECONDS.sleep(1);
+        }
         System.out.println();
     }
 }
